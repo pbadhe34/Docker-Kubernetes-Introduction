@@ -1,0 +1,15 @@
+docker run -d --name mysql-container -h mysql-host pbadhe34/my-apps:mysql-users
+
+
+docker run --name app-mysql -v /mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=MyRootPass123 -e MYSQL_DATABASE=userservice -e MYSQL_USER=app-user -e MYSQL_PASSWORD=MyRootPass123 -d mysql:5.6
+
+ To run with predefined data volume
+docker run --name app-mysql -v /mysql_init:/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=MyRootPass123 -e MYSQL_DATABASE=userservice -e MYSQL_USER=app-user -e MYSQL_PASSWORD=MyRootPass123 -d pbadhe34/my-apps:mysql-users
+
+
+
+
+docker run -d --link app-mysql:mysql pbadhe34/my-apps:user-app
+
+ Test the url
+  http://172.17.0.3:8090/users
